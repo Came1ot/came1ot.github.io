@@ -1,6 +1,6 @@
 const btn = document.getElementById("startTimer");
 const message = document.getElementById("timeLeft");
-const alarmSound = new Audio('alarm.wav');
+const alarmSound = new Audio('https://github.com/Came1ot/came1ot.github.io/blob/main/alarm.wav');
 
 
 let timer = {
