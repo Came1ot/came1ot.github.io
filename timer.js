@@ -1,6 +1,6 @@
 const btn = document.getElementById("startTimer");
 const message = document.getElementById("timeLeft");
-const alarmSound = document.getElementByID("alarmSound");
+const alarmSound = new Audio('alarm.wav');
 
 
 let timer = {
@@ -69,19 +69,7 @@ function timerTick (timeLeft){
 			clearInterval(refreshIntervalId);
 			timer.start = false;
 			btn.innerText = "Stop";
-			var playId = setInterval (function() {
-				alarmSound.play(); 
-				//console.log(count);
-				//count--;
-				/*if (count == 0) {
-					clearInterval(playId);
-					alarmSound.pause();
-					alarmSound.currentTime = 0;;
-				}*/
-			}, 1000);
-			clearInterval(playId);
-			alarmSound.pause();
-			alarmSound.currentTime = 0;
+			alarmSound.play(); 
 			//console.log("Time expired!");
 		}
 	}, 1000);
