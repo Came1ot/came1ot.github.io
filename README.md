@@ -5,11 +5,6 @@
 </head>
 <body>
 <div class="listOfTimers">
-<audio controls>
-  <source src="horse.ogg" type="audio/ogg">
-  <source src="horse.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
 	<div><p id="timeLeft"></p></div>	
     <div class="message"></div>
     <div class="alarmTime"></div>
