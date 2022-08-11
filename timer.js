@@ -69,7 +69,16 @@ function timerTick (timeLeft){
 			clearInterval(refreshIntervalId);
 			timer.start = false;
 			btn.innerText = "Stop";
-			alarmSound.play(); 
+			var playId = setInterval(function() {
+				alarmSound.play(); 
+				timer.duration--;
+				if (timer.duration == 0 || timer.start) {
+					clearInterval(playId);
+					alarmSound.pause();
+					alarmSound.currentTime = 0;
+					timer.duration = 60;
+				}
+			}, 1000);
 			//console.log("Time expired!");
 		}
 	}, 1000);
