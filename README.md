@@ -19,6 +19,6 @@
 	</div>	
 </div>
 <script src="https://github.com/Came1ot/came1ot.github.io/blob/main/timer.js"></script>
-<audio id="alarmSound" src="https://github.com/Came1ot/came1ot.github.io/blob/main/alarm.wav" preload="auto"></audio>
+<audio id="alarmSound" src="/alarm.wav" preload="auto"></audio>
 </body>
 </html>
