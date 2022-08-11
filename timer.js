@@ -1,6 +1,6 @@
 const btn = document.getElementById("startTimer");
 const message = document.getElementById("timeLeft");
-const alarmSound = new Audio('/alarm.wav');
+const alarmSound = document.getElementByID("alarmSound");
 
 
 let timer = {
