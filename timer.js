@@ -1,13 +1,15 @@
-const btn = document.getElementById("startTimer");
-const message = document.getElementById("timeLeft");
+const btn = document.getElementById('startTimer');
+const message = document.getElementById('timeLeft');
 const alarmSound = new Audio('alarm.wav');
-
 
 let timer = {
 	hours: 0,
 	minutes: 0,
 	seconds: 0,
-	start: true,
+	start: false,
+	duration: 30,
+	repeat: true,
+	repeatTime: 300,
 	totalSeconds: function(){
 	return this.hours + +this.minutes + +this.seconds
 	}
@@ -34,52 +36,57 @@ function getAlarmTime(){
 btn.addEventListener ("click", ()=>{
 	timer.start = !timer.start;
 	getAlarmTime();
-	var timeLeft = timer.totalSeconds();
-	//const timeLeft = getAlarmTime().getTime();
-	if (timeLeft <= 0) {
-			btn.innerText = "Start";
-			message.innerHTML = "";
-			alarmSound.pause();
-			alarmSound.currentTime = 0;
-			timer.start = false;
-		} else if(btn.innerText == "Stop") {
-			btn.innerText = "Start";
-			message.innerHTML = "";
-			alarmSound.pause();
-			alarmSound.currentTime = 0;
-		} else {
-			btn.innerText = "Stop";
-			timer.start = true;
-			timerTick(timeLeft);
-		}
+	
+
+	const timeLeft = timer.totalSeconds();
+	console.log(timer);
+	if (timer.start && timeLeft > 0) {
+		timerTick(timeLeft);
+	} else {
+		timer.start = false;
+		//alarmSound.pause();
+		//alarmSound.currentTime = 0;
+	}
+	btn.innerText = timer.start? "Stop" : "Start";	
 })
 
 function timerTick (timeLeft){
-	var refreshIntervalId = setInterval(function() {
+	var timerId = setInterval(function() {
 		if (timeLeft > 0 && timer.start){
-			btn.innerText = "Stop";
-			timeLeft = timeLeft - 1;
 			var hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
 			var minutes = Math.floor((timeLeft % (60 * 60)) / (60));
 			var seconds = Math.floor(timeLeft % 60);	
 			message.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-			//console.log(hours + "h " + minutes + "m " + seconds + "s ");
+			timeLeft--;
 		} else {
 			message.innerHTML = "";
-			clearInterval(refreshIntervalId);
-			timer.start = false;
-			btn.innerText = "Stop";
-			var playId = setInterval(function() {
-				alarmSound.play(); 
-				timer.duration--;
-				if (timer.duration == 0 || timer.start) {
-					clearInterval(playId);
-					alarmSound.pause();
-					alarmSound.currentTime = 0;
-					timer.duration = 60;
+			clearInterval(timerId);
+			playSound();
+			var repeatId = setInterval (function() {
+				if (timer.repeatTime >= 0 && timer.start && timer.repeat) {
+					timer.repeatTime--;
+					playSound();
+				} else {
+					clearInterval(repeatId);
+					timer.repeatTime = 300;
+					
 				}
-			}, 1000);
-			//console.log("Time expired!");
+			}, 60000);
+		}
+	}, 1000);
+	if (!timer.start) timer.start = false;
+}
+
+function playSound() {
+	var playId = setInterval(function() {
+		if (timer.duration >= 0 && timer.start){
+			alarmSound.play(); 
+			timer.duration--;				
+		} else {
+			clearInterval(playId);
+			alarmSound.pause();
+			alarmSound.currentTime = 0;
+			timer.duration = 30;
 		}
 	}, 1000);
 }
