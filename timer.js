@@ -1,5 +1,5 @@
 const btn = document.getElementById('startTimer');
-const message = document.getElementById('timeLeft');
+const message = document.getElementsByClassName('message')[0];
 const alarmSound = new Audio('alarm.wav');
 
 let timer = {
@@ -36,10 +36,7 @@ function getAlarmTime(){
 btn.addEventListener ("click", ()=>{
 	timer.start = !timer.start;
 	getAlarmTime();
-	
-
 	const timeLeft = timer.totalSeconds();
-	console.log(timer);
 	if (timer.start && timeLeft > 0) {
 		timerTick(timeLeft);
 	} else {
