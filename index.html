@@ -4,24 +4,42 @@
 	<title>Timer</title>
 </head>
 <body>
+	<div class="currentTime"></div>
 	<div class="timer">
 		<div class="message"></div>
-		<div class="alarmTime"></div>
-		<div class="timer">
-			<p>
-				<label for="hours">Hours</label>
-					<input id="hours" name="timer" type="number" value="0" min="0" max="24" onkeyup="enforceMinMax(this)">
-			</p>
-			<p>
-				<label for="minutes">Minutes</label>
-					<input id="minutes" name="timer" type="number" value="0" min="0" max="60" onkeyup="enforceMinMax(this)">
-				</label>
-			</p>
-			<p>
-				<label for="seconds">Seconds</label>
-					<input id="seconds" name="timer" type="number" value="0" min="0" max="60" onkeyup="enforceMinMax(this)">
-			</p>
-			<button id="startTimer" type="button">Start</button>
+		<div class="timerParams">
+			<div class="timerSet">
+				<p>
+					<label for="hours">Hours</label>
+						<input id="hours" name="timer" type="number" value="0" min="0" max="24" onkeyup="enforceMinMax(this)" onchange ="updateValues(this)">
+				</p>
+				<p>
+					<label for="minutes">Minutes</label>
+						<input id="minutes" name="timer" type="number" value="0" min="0" max="60" onkeyup="enforceMinMax(this)" onchange ="updateValues(this)">
+					</label>
+				</p>
+				<p>
+					<label for="seconds">Seconds</label>
+						<input id="seconds" name="timer" type="number" value="0" min="0" max="60" onkeyup="enforceMinMax(this)" onchange ="updateValues(this)">
+				</p>
+				<button id="startTimer" type="button">Start</button>
+			</div>
+			<div class="audioSet">
+				<p>
+					<label for="volume">Volume</label>
+						<input id="volume" name="audio" type="number" value="0" min="0" max="100" onkeyup="enforceMinMax(this)" onchange ="updateValues(this)">
+				</p>
+				<form>
+					<b> Select sound for timer</b>
+					<select id = "audioList" onchange = "selectAudio()" >
+						<option> ---Choose sound--- </option>
+						<option> w3schools </option>
+						<option> Javatpoint </option>
+						<option> tutorialspoint </option>
+						<option> geeksforgeeks </option>
+					</select>
+					</form>
+			</div>
 		</div>
 	</div>
 <script src="timer.js"></script>

@@ -1,5 +1,6 @@
 const btn = document.getElementById('startTimer');
 const message = document.getElementsByClassName('message')[0];
+const currentTime = document.getElementsByClassName('currentTime')[0];
 const alarmSound = new Audio('alarm.wav');
 
 let timer = {
@@ -9,11 +10,27 @@ let timer = {
 	start: false,
 	duration: 30,
 	repeat: true,
-	repeatTime: 300,
-	totalSeconds: function(){
-	return this.hours + +this.minutes + +this.seconds
-	}
+	repeatTime: 300
 };
+
+function getCurrentMs() {
+	return window.performance.now()
+}
+
+function getCurrentTime() {
+	//var today = new Date();
+	//var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	//var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	//var dateTime = date+' '+time;
+	currentTime.innerHTML = new Date();
+}
+
+function totalMs() {
+	var hours = parseInt(timer.hours);
+	var minutes = parseInt(timer.minutes);
+	var seconds = parseInt(timer.seconds);
+	return (hours * 3600 + minutes * 60 + seconds) * 1000;
+}
 
 function enforceMinMax(el){
   if(el.value != ""){
@@ -26,64 +43,80 @@ function enforceMinMax(el){
   }
 }
 
-function getAlarmTime(){
-	const now = new Date();
-	timer.hours = document.getElementById("hours").value * 3600;
-	timer.minutes = document.getElementById("minutes").value * 60;
+function updateValues(el){
+	timer.hours = document.getElementById("hours").value;
+	timer.minutes = document.getElementById("minutes").value;
 	timer.seconds = document.getElementById("seconds").value;
+	showMessage(totalMs());
 }
 
+function showMessage(ms){
+	let totalSeconds = ms / 1000;
+	let totalMinutes = totalSeconds / 60;
+	let totalHours = totalMinutes / 60;
+	
+	let milliseconds = Math.floor(ms % 1000);
+	let seconds = Math.floor(totalSeconds % 60);
+	let minutes = Math.floor(totalMinutes % 60);
+	let hours = Math.floor(totalHours % 24);
+	message.innerHTML = hours + "h " + minutes + "m " + seconds + "." + milliseconds + " s";
+}	
+
 btn.addEventListener ("click", ()=>{
+	var startTime = getCurrentMs();
 	timer.start = !timer.start;
-	getAlarmTime();
-	const timeLeft = timer.totalSeconds();
-	if (timer.start && timeLeft > 0) {
-		timerTick(timeLeft);
+	if (timer.start) {
+		timerTick(startTime);		
 	} else {
 		timer.start = false;
-		//alarmSound.pause();
-		//alarmSound.currentTime = 0;
 	}
 	btn.innerText = timer.start? "Stop" : "Start";	
 })
 
-function timerTick (timeLeft){
+function timerTick (startTime){
 	var timerId = setInterval(function() {
+		var timeLeft =  totalMs() - (getCurrentMs() - startTime);
+		//console.log(timeLeft);
 		if (timeLeft > 0 && timer.start){
-			var hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
-			var minutes = Math.floor((timeLeft % (60 * 60)) / (60));
-			var seconds = Math.floor(timeLeft % 60);	
-			message.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-			timeLeft--;
-		} else {
-			message.innerHTML = "";
+			showMessage(timeLeft);
+		} else if (timeLeft <= 0){
 			clearInterval(timerId);
-			playSound();
+			playSound(getCurrentMs());
 			var repeatId = setInterval (function() {
-				if (timer.repeatTime >= 0 && timer.start && timer.repeat) {
-					timer.repeatTime--;
-					playSound();
+				var startRepeat = getCurrentMs();
+				var repeatTime =  timer.repeatTime - (getCurrentMs() - startRepeat)
+				if (repeatTime >= 0 && timer.start && timer.repeat) {
+					playSound(getCurrentMs());
+					console.log(Math.floor(repeatTime % 60));
 				} else {
 					clearInterval(repeatId);
 					timer.repeatTime = 300;
 					
 				}
 			}, 60000);
+		} else {
+			clearInterval(timerId);
+			timeLeft = 0;
 		}
-	}, 1000);
+	}, 1);
 	if (!timer.start) timer.start = false;
 }
 
-function playSound() {
+function playSound(startPlayTime) {
+	var timeLeft = timer.duration - (getCurrentMs() - startPlayTime);
 	var playId = setInterval(function() {
-		if (timer.duration >= 0 && timer.start){
-			alarmSound.play(); 
-			timer.duration--;				
+		if (timeLeft >= 0 && timer.start){
+			alarmSound.volume = 0.1;
+			alarmSound.play();			
 		} else {
 			clearInterval(playId);
 			alarmSound.pause();
-			alarmSound.currentTime = 0;
-			timer.duration = 30;
 		}
-	}, 1000);
+	}, 1);
+}
+
+var time = showMessage(totalMs());
+getCurrentTime();
+
+function selectAudio(){
 }
