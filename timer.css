@@ -11,8 +11,8 @@ body{
 }
 
 .currentTime{
-	background-color: #eef;
-	color: #fff;
+	background-color: #5CCCCC;
+	color: #006363;
 	margin: auto;
 }
 
@@ -20,41 +20,46 @@ body{
 .timer{
 	padding: 30px;
 	margin: 50px;
-	width: 80%;
+	width: 90%;
+	color: #006363;
 }
 
 .message{
+	background-color: #5CCCCC;
 	border:1px solid #ccd;
 	font-size: 72px;
     font-family: monospace;
-	background-color: #eef;
+	float: center;
+	width: 80%;
 	margin: auto;
 }
 
 .timerParams{
 	display: inline-block;
 	width: 740px;
+	width: 80%;
 }
 
 .timerSet{
-	background-color: #eef;
+	background-color: #5CCCCC;
 	display: inline-block;
 	border: 1px solid #ccd;
-	margin-right: 10px;
 	border-radius: 8px;
 	min-height: 330px;
-	width: 40%;
+	float: left;
+	width: 49%;
+	margin: auto;
 }
 
 .audioSet{
-	background-color: #eef;
+	background-color: #5CCCCC;
 	display: inline-block;
-	margin-left: 10px;
 	border: 1px solid #ccd;
 	border-radius: 8px;
 	min-height: 330px;
-	width: 40%;
-	vertical-align: top;
+	float: right;
+	width: 49%;
+	margin: auto;
 }
 
 
@@ -62,13 +67,13 @@ label{
 	text-align: left;
     margin-right: 10px; 
     line-height: 20px;
-	color: #FFFF;
+	color: #006363;
 }
 
 input{
 	padding: 3px;
 	box-shadow: 2px 2px 0px #d4bebc;
-	color: #6D5C55;
+	color: #006363;
 	font-size: 18px;
 	border-radius:10px;
 }
@@ -82,13 +87,13 @@ button {
     min-width: 150px;
 	border-radius:10px;
 	border: none;
-	background-color: #E58E00;
+	background-color: #FF7400;
 	color: #fff;
 	font-size: 20px;
 }
 
 button:hover{
-	background-color: #FFBB02;
+	background-color: #5CCCCC;
     transition: 0.7s;
 	min-height:40px; 
     min-width: 170px;
@@ -101,9 +106,9 @@ button:focus {
     outline-color: transparent;
     outline-style:solid;
 	transition: 0.7s;
-	background-color: #FFA566
+	background-color: #006363
 }
 
 button:active {
-    background-color: $FFA566;
+    background-color: $FF7400;
 }
