@@ -31,9 +31,13 @@ function getCurrentTime() {
 	const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
-	//currentTime.innerHTML = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	
+	const formattedDate = `${year}-${month}-${day}`;
+	const formattedTime = `${hours}:${minutes}:${seconds}`;
+	//currentTime.innerHTML = `Date: ${formattedDate}, Time: ${formattedTime}`;
 	currentTime.innerHTML = now;
 }
+
 
 setInterval(getCurrentTime, 1000);
 
@@ -88,7 +92,7 @@ function showMessage(ms){
 	let milliseconds = Math.round(ms % 1000);
 	let seconds = Math.floor(totalSeconds % 60);
 	let minutes = Math.floor(totalMinutes % 60);
-	let hours = Math.floor(totalHours % 24);
+	let hours = Math.floor(totalHours);
 	//if (milliseconds < 100) milliseconds = 0;
 	//message.innerHTML = hours + "h " + minutes + "m " + seconds + "." + milliseconds + "s";
 	message.innerHTML = `${hours}:${minutes}:${seconds}`;
