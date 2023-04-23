@@ -52,7 +52,9 @@
 				<div class="audioSet">
 					<p>
 						<label for="volume">Volume</label>
-							<input id="volume" name="audio" type="number" value="0" min="0" max="100" onkeyup="enforceMinMax(this)" onchange ="updateValues(this)">
+							<input id="volume" name="audio" type="number" min="0" max="100" 
+							onkeyup="enforceMinMax(this)" 
+							onchange ="changeVolume(this)">
 					</p>
 					<form>
 						<b> Select sound</b>
