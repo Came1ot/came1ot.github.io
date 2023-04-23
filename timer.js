@@ -1,37 +1,50 @@
-const btn = document.getElementById('startTimer');
-const message = document.getElementsByClassName('message')[0];
-const currentTime = document.getElementsByClassName('currentTime')[0];
-const getSound = document.getElementById("audioList");
-const soundsList = ["alarm.wav", "Charmes ft. Da Professor - Ready.mp3", "Megan Thee Stallion - Cry Baby.mp3", 
-"The Prodigy - Breathe.mp3", "You Never Can Tell.mp3"];
-var audio = document.getElementById('alarmSound');
-var source = document.getElementById('audioSource');
-
-
 let timer = {
 	hours: 0,
 	minutes: 0,
 	seconds: 0,
+	volume: 0.5,
 	start: false,
 	duration: 30,
 	repeat: true,
 	repeatTime: 300
 };
 
+const btn = document.getElementById('startTimer');
+const message = document.getElementsByClassName('message')[0];
+const currentTime = document.getElementsByClassName('currentTime')[0];
+const getSound = document.getElementById("audioList");
+const soundsList = ["alarm.wav", "Charmes ft. Da Professor - Ready.mp3", "Megan Thee Stallion - Cry Baby.mp3", 
+	"The Prodigy - Breathe.mp3", "You Never Can Tell.mp3"];
+const audio = new Audio();
+const volume = document.getElementById('volume');
+
+
 function getCurrentMs() {
 	return window.performance.now()
 }
 
 function getCurrentTime() {
-	currentTime.textContent = "test";
-	currentTime.innerHTML = new Date();
+	const now = new Date();
+	const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+	const day = now.getDate();    
+	const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+	//currentTime.innerHTML = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	currentTime.innerHTML = now;
 }
+
+setInterval(getCurrentTime, 1000);
 
 function fillSelect(values) {
 	document.getElementById("audioList").innerHTML =
     values.reduce((tmp, x) => `${tmp}<option>${x}</option>`, '');
-	source.src = soundsList[0];
+	audio.src = soundsList[0];
+	audio.volume = timer.volume;
+	volume.value = timer.volume * 100;
 }
+fillSelect(soundsList);
 
 function totalMs() {
 	var hours = parseInt(timer.hours);
@@ -52,12 +65,7 @@ function enforceMinMax(el){
 }
 
 function selectAudio(item){
-	var value = item.value;
-	console.log(value);
-	source.src = value;
-	//var alarmSound = new Audio(value);
-	//var alarmSound = new Audio("You Never Can Tell.mp3");
-
+	audio.src = item.value;
 }
 
 function updateValues(el){
@@ -65,6 +73,11 @@ function updateValues(el){
 	timer.minutes = document.getElementById("minutes").value;
 	timer.seconds = document.getElementById("seconds").value;
 	showMessage(totalMs());
+}
+
+function changeVolume(el){
+	timer.volume = document.getElementById("volume").value / 100;
+	audio.volume = timer.volume;
 }
 
 function showMessage(ms){
@@ -76,7 +89,10 @@ function showMessage(ms){
 	let seconds = Math.floor(totalSeconds % 60);
 	let minutes = Math.floor(totalMinutes % 60);
 	let hours = Math.floor(totalHours % 24);
-	message.innerHTML = hours + "h " + minutes + "m " + seconds + "." + milliseconds + "s";
+	//if (milliseconds < 100) milliseconds = 0;
+	//message.innerHTML = hours + "h " + minutes + "m " + seconds + "." + milliseconds + "s";
+	message.innerHTML = `${hours}:${minutes}:${seconds}`;
+
 }	
 
 btn.addEventListener ("click", ()=>{
@@ -122,9 +138,7 @@ function timerTick (startTime){
 function playSound(startPlayTime) {
 	var timeLeft = timer.duration - (getCurrentMs() - startPlayTime);
 	var playId = setInterval(function() {
-		audio.load();
 		if (timeLeft >= 0 && timer.start){
-			audio.volume = 0.1;
 			audio.play();			
 		} else {
 			clearInterval(playId);
@@ -132,9 +146,3 @@ function playSound(startPlayTime) {
 		}
 	}, 1);
 }
-
-getCurrentTime();
-fillSelect(soundsList);
-
-var time = showMessage(totalMs());
-console.log(value);
