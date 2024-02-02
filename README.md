@@ -26,6 +26,6 @@
 	</div>
 <script src="[timer.js](https://github.com/Came1ot/came1ot.github.io/blob/main/timer.js)"></script>
 <audio id="alarmSound" src="[alarm.wav](https://user-images.githubusercontent.com/19853553/184044130-7b8bf293-3282-418a-862a-4ef94991a8a6.mp4)" preload="auto"></audio>
-<link rel="stylesheet" href="[timer.css](https://github.com/Came1ot/came1ot.github.io/blob/main/timer.css)">
+<link ref="stylesheet" href="[timer.css]([https://github.com/Came1ot/came1ot.github.io/blob/main/timer.css](https://came1ot.github.io/)https://came1ot.github.io/)">
 </body>
 </html>
